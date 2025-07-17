@@ -1,0 +1,9 @@
+## Title: Speak Like Khajiit
+## Author: YFNatey
+## Version: 1.0
+## APIVersion: 101046
+## SavedVariables: KhajiitVoiceSavedVars
+## ConsoleDependsOn: LibAddonMenu-2.0
+
+Khajiit.lua
+
