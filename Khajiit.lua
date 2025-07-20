@@ -23,7 +23,12 @@ local defaults = {
         cyrodiilicTone = 0,
         physicalExpression = 0,   -- 0-100 scale (roleplay actions)
         intimidatingPresence = 0, -- 0-100 scale (threatening farewells)
-        scholarlyTone = 0         -- 0-100 scale (poetic speech)
+        scholarlyTone = 0,
+        naiveTone = 0,            -- 0-100 scale (innocent, uncertain)
+        melancholyTone = 0,       -- 0-100 scale (sad, wistful)
+        daftTone = 0,             -- 0-100 scale (confused, simple)
+        lonerTone = 0,            -- 0-100 scale (poetic speech)
+        kindSoulTone = 0
     },
 }
 local patterns = {
@@ -62,15 +67,13 @@ local patterns = {
             "May your claws stay sharp and your heart warm.",
             "May your path be lit by bright moons.",
             "Go well, walker of many roads.",
-            "Goodbye."
         },
         greeting = {
-            "Bright moons, walker",
-            "The moons smile upon this meeting",
-            "This one's whiskers twitch with joy at seeing you",
-            "Greetings, walker",
-            "The winds brought whispers of your approach",
-            "Ah, a familiar scent on the desert wind",
+            "Bright moons, walker - ",
+            "The moons smile upon this meeting - ",
+            "This one's whiskers twitch with joy at seeing you - ",
+            "The winds brought whispers of your approach - ",
+            "Ah, a familiar scent on the desert wind - ",
             "Hello"
         },
         merchant = {
@@ -151,7 +154,153 @@ local patterns = {
                 ["yes"] = "indeed, as the ancient texts would agree",
                 ["maybe"] = "perhaps, as the philosophers might ponder"
             }
-        }
+        },
+        naiveExpressions = {
+            replacements = {
+                ["I understand"] = "this one thinks this one understands... maybe?",
+                ["I know"] = "this one believes this one knows",
+                ["obviously"] = "this one supposes",
+                ["of course"] = "naturally... yes?",
+                ["certainly"] = "this one is quite sure... probably"
+            },
+            additions = {
+                beginnings = {
+                    "This one wonders... ",
+                    "Perhaps this one misunderstands, but ",
+                    "This one's simple mind thinks ",
+                    "If this one may ask... "
+                },
+                endings = {
+                    ""
+                }
+            }
+        },
+        melancholyExpressions = {
+            farewells = {
+                "Another parting... such is the way of things.",
+                "Until fate decides our paths cross again.",
+                "This one grows weary of goodbyes.",
+                "May your journey bring more joy than this one's.",
+                "The moons witness another farewell."
+            },
+            replacements = {
+                ["I'm happy"] = "this one finds a moment's peace",
+                ["great"] = "adequate, this one supposes",
+                ["wonderful"] = "pleasant enough",
+                ["excited"] = "mildly hopeful"
+            },
+            additions = {
+                sighs = { " *sighs softly*", " *ears droop slightly*", " *gazes distantly*" }
+            }
+        },
+        daftExpressions = {
+            replacements = {
+                ["I understand"] = "this one's whiskers tingle with... comprehension?",
+                ["complex"] = "very... wordy",
+                ["difficult"] = "makes this one's head hurt",
+                ["strategy"] = "clever... thing?",
+                ["obviously"] = "this one sees... something"
+            },
+            confusions = {
+                "This one's brain feels fuzzy about this.",
+                "These words are too big for this one's small head.",
+                "This one will nod and hope for the best.",
+                "Perhaps the smart people understand this?"
+            }
+        },
+        lonerExpressions = {
+            replacements = {
+                ["%f[%w]we%f[%W]"] = "you... and this one, separately",
+                ["%f[%w]together%f[%W]"] = "in proximity",
+                ["%f[%w]friend%f[%W]"] = "...acquaintance",
+                ["%f[%w]help%f[%W]"] = "briefly assist"
+            },
+            farewells = {
+                "This one prefers the solitude anyway.",
+                "Back to the quiet paths, then.",
+                "The silence calls to this one.",
+                "This one has... things to do. Alone.",
+                "...",
+                "..."
+            },
+            avoidance = {
+                beginnings = {
+                    "...",
+                }
+            }
+        },
+        kindSoulExpressions = {
+            greetings = {
+                "Blessings of the warm sands upon you, dear friend",
+                "This one's heart brightens like morning sun at your presence",
+                "What a lovely soul graces this one's path today",
+                "Sweet stranger, the moons have brought us together with purpose",
+                "This one feels such warmth in meeting you, gentle spirit",
+                "Your kind aura touches this one's whiskers with joy",
+                "Like a gentle breeze through the desert, you bring comfort"
+            },
+            farewells = {
+                "May gentle winds carry you to happiness",
+                "This one's heart keeps a warm place for you always",
+                "Until we meet again, sweet friend of the journey",
+                "May your path be lined with flowers and friendship",
+                "Soft moonlight guide your precious steps, cherished soul",
+                "This one sends you forth wrapped in warmest wishes",
+                "Go well, beautiful spirit, and know you are treasured"
+            },
+            replacements = {
+                ["I'm sorry"] = "this one's heart aches with regret, dear friend",
+                ["thank you"] = "this one's soul overflows with gratitude, sweet one",
+                ["please"] = "if it pleases your gentle heart",
+                ["I hope"] = "this one's tender heart hopes with all its warmth",
+                ["good luck"] = "may fortune smile upon your precious endeavors",
+                ["I understand"] = "this one's caring heart comprehends completely",
+                ["of course"] = "naturally, dear soul, with the greatest pleasure",
+                ["help"] = "lovingly assist",
+                ["fight"] = "protect those we hold dear",
+                ["kill"] = "send to peaceful rest",
+                ["problem"] = "gentle challenge",
+                ["difficult"] = "requiring tender patience"
+            },
+            endearments = {
+                ", dear friend",
+                ", sweet soul",
+                ", precious one",
+                ", gentle spirit",
+                ", cherished companion",
+                ", beloved stranger",
+                ", tender heart"
+            },
+            gentleActions = {
+                beginnings = {
+                    "*This one's whiskers twitch with gentle joy* ",
+                    "*ears flutter with tender concern* ",
+                    "*paws clasped with caring* ",
+                    "*eyes sparkling with warmth* ",
+                    "*tail curled with affection* ",
+                    "*head tilted with loving attention* "
+                },
+                endings = {
+                    " *purrs softly with contentment*",
+                    " *whiskers trembling with emotion*",
+                    " *eyes shining with kindness*",
+                    " *tail swaying gently*",
+                    " *paws placed over heart*",
+                    " *soft sigh of compassion*"
+                }
+            },
+            flowerySpeech = {
+                intensifiers = {
+                    ["very"] = "absolutely precious and",
+                    ["really"] = "truly, from the depths of this one's heart,",
+                    ["quite"] = "most beautifully",
+                    ["pretty"] = "breathtakingly lovely",
+                    ["nice"] = "wonderfully heartwarming",
+                    ["good"] = "absolutely divine"
+                }
+            }
+        },
+
     }
 }
 
@@ -296,6 +445,17 @@ KhajiitVoice.currentDialogueReplacements = {} -- Stores replacements for current
 ---=============================================================================
 -- GRAMMAR
 --=============================================================================
+function KhajiitVoice:EnsurePunctuation(text)
+    -- Trim whitespace from the end
+    local result = string.gsub(text, "%s+$", "")
+
+    -- Check if it already ends with punctuation
+    if not string.find(result, "[%.%!%?]$") then
+        result = result .. "."
+    end
+
+    return result
+end
 
 function KhajiitVoice:ProcessSentenceWithContext(text)
     local result = text
@@ -542,7 +702,6 @@ function KhajiitVoice:ReduceRepetition(text, originalText)
     return result
 end
 
--- Subject pronoun replacement with better multiple pronoun handling
 function KhajiitVoice:ReplaceSubjectPronouns(text, selfRef)
     local result = text
 
@@ -558,6 +717,7 @@ function KhajiitVoice:ReplaceSubjectPronouns(text, selfRef)
     result = string.gsub(result, " I've ", " " .. selfRef .. " has ")
     result = string.gsub(result, "^I'd ", selfRef .. " would ")
     result = string.gsub(result, " I'd ", " " .. selfRef .. " would ")
+    result = string.gsub(result, " What am I ", " " .. "What is " .. selfRef .. " ")
 
     -- Handle "I am", "I have", etc.
     result = string.gsub(result, "^I am ", selfRef .. " is ")
@@ -568,6 +728,20 @@ function KhajiitVoice:ReplaceSubjectPronouns(text, selfRef)
     result = string.gsub(result, " I will ", " " .. selfRef .. " will ")
     result = string.gsub(result, "^I can ", selfRef .. " can ")
     result = string.gsub(result, " I can ", " " .. selfRef .. " can ")
+
+    -- NEW: Handle "I want", "I need", etc.
+    result = string.gsub(result, "^I want ", selfRef .. " wants ")
+    result = string.gsub(result, " I want ", " " .. selfRef .. " wants ")
+    result = string.gsub(result, "^I need ", selfRef .. " needs ")
+    result = string.gsub(result, " I need ", " " .. selfRef .. " needs ")
+    result = string.gsub(result, "^I like ", selfRef .. " likes ")
+    result = string.gsub(result, " I like ", " " .. selfRef .. " likes ")
+    result = string.gsub(result, "^I love ", selfRef .. " loves ")
+    result = string.gsub(result, " I love ", " " .. selfRef .. " loves ")
+    result = string.gsub(result, "^I hate ", selfRef .. " hates ")
+    result = string.gsub(result, " I hate ", " " .. selfRef .. " hates ")
+    result = string.gsub(result, "^I feel ", selfRef .. " feels ")
+    result = string.gsub(result, " I feel ", " " .. selfRef .. " feels ")
 
     -- For multiple pronouns, be more selective with remaining "I" replacements
     if pronounCount > 2 then
@@ -602,7 +776,12 @@ end
 -- Replace object pronouns
 function KhajiitVoice:ReplaceObjectPronouns(text, selfRef)
     local result = text
-    local objectForm = (selfRef == "This one") and "this one" or selfRef
+    local objectForm = (selfRef == "this one") and "this one" or selfRef
+
+    -- Handle specific common phrases first
+    result = string.gsub(result, "tell me", "tell " .. objectForm)
+    result = string.gsub(result, "help me", "help " .. objectForm)
+    result = string.gsub(result, "show me", "show " .. objectForm)
 
     -- Use word boundaries to avoid partial matches
     result = string.gsub(result, "(%f[%a])me(%f[%A])", objectForm)
@@ -635,6 +814,98 @@ end
 ---=============================================================================
 -- PERSONALITY
 --=============================================================================
+-- Racial Relations
+function KhajiitVoice:GetNPCRaceRelationship()
+    local raceId = GetUnitRaceId("interact")
+
+    if not raceId or raceId == 0 then
+        return "unknown", 1.0 -- Default neutral
+    end
+
+    local relationships = {
+        [RACE_KHAJIIT] = { "khajiit", 1.5 },   -- Strong kinship
+        [RACE_ARGONIAN] = { "argonian", 1.3 }, -- Beast race kinship
+        [RACE_IMPERIAL] = { "imperial", 0.7 }, -- Historical tension
+        [RACE_ALTMER] = { "altmer", 0.8 },     -- Slight wariness
+        [RACE_DUNMER] = { "dunmer", 0.6 },     -- Historical slavery issues
+        [RACE_NORD] = { "nord", 0.9 },         -- Neutral
+        [RACE_REDGUARD] = { "redguard", 0.9 }, -- Neutral
+        [RACE_BRETON] = { "breton", 0.9 },     -- Neutral
+        [RACE_BOSMER] = { "bosmer", 1.1 },     -- Slight kinship (Elsweyr neighbors)
+        [RACE_ORC] = { "orc", 1.0 }            -- Neutral
+    }
+
+    local relationship = relationships[raceId]
+    if relationship then
+        return relationship[1], relationship[2] -- race name, kinship multiplier
+    end
+
+    return "unknown", 1.0
+end
+
+function KhajiitVoice:ApplyRacialKinship(traits, npcRace, kinshipMultiplier)
+    local modifiedTraits = {}
+
+    -- Copy all existing traits
+    for trait, value in pairs(traits) do
+        modifiedTraits[trait] = value
+    end
+
+    -- Apply racial-specific modifications
+    if npcRace == "khajiit" then
+        -- Talking to another Khajiit - more traditional, formal, familial
+        modifiedTraits.formality = math.min(100, modifiedTraits.formality + 20)
+        modifiedTraits.physicalExpression = math.min(100, modifiedTraits.physicalExpression + 15)
+        modifiedTraits.scholarlyTone = math.min(100, modifiedTraits.scholarlyTone + 10)
+        -- Less intimidating to fellow Khajiit
+        modifiedTraits.intimidatingPresence = math.max(0, modifiedTraits.intimidatingPresence - 20)
+    elseif npcRace == "argonian" then
+        -- Beast race kinship - more physical, less formal
+        modifiedTraits.physicalExpression = math.min(100, modifiedTraits.physicalExpression + 20)
+        modifiedTraits.formality = math.max(0, modifiedTraits.formality - 10)
+        modifiedTraits.intimidatingPresence = math.max(0, modifiedTraits.intimidatingPresence - 10)
+    elseif npcRace == "dunmer" then
+        -- Historical tension - more cautious, less trusting
+        modifiedTraits.intimidatingPresence = math.min(100, modifiedTraits.intimidatingPresence + 15)
+        modifiedTraits.formality = math.min(100, modifiedTraits.formality + 15)
+        modifiedTraits.physicalExpression = math.max(0, modifiedTraits.physicalExpression - 10)
+        modifiedTraits.naiveTone = math.max(0, modifiedTraits.naiveTone - 20) -- Less naive around Dunmer
+    elseif npcRace == "imperial" then
+        -- Cyrodiilic influence - speak more like an Imperial
+        modifiedTraits.cyrodiilicTone = math.min(100, modifiedTraits.cyrodiilicTone + 25)
+        modifiedTraits.formality = math.min(100, modifiedTraits.formality + 10)
+    elseif npcRace == "altmer" then
+        -- High Elves - more formal, scholarly
+        modifiedTraits.formality = math.min(100, modifiedTraits.formality + 15)
+        modifiedTraits.scholarlyTone = math.min(100, modifiedTraits.scholarlyTone + 10)
+    elseif npcRace == "bosmer" then
+        -- Wood Elves - neighboring kinship, more relaxed
+        modifiedTraits.formality = math.max(0, modifiedTraits.formality - 10)
+        modifiedTraits.physicalExpression = math.min(100, modifiedTraits.physicalExpression + 10)
+    end
+
+    return modifiedTraits
+end
+
+local khajiitToKhajiitExpressions = {
+    greetings = {
+        "Bright moons, sibling of the sands",
+        "This one's whiskers twitch with joy at meeting kin",
+        "The moons smile upon this meeting of claws",
+        "Well met, child of Alkosh",
+        "Greetings, walker of the moonpath",
+        "By Jone and Jode, another of the pride"
+    },
+    farewells = {
+        "May Alkosh guide your steps, kinsman",
+        "Until the moons bring us together again, sibling",
+        "Walk well upon the moonpaths",
+        "May your claws stay sharp, child of Elsweyr",
+        "The pride remembers you, kin",
+        "Sweet dreams under Jone and Jode's light"
+    }
+}
+
 function KhajiitVoice:ApplyPersonalityTraits(text, originalText)
     local traits = KhajiitVoice.savedVars.personalityTraits
     local result = text
@@ -646,14 +917,22 @@ function KhajiitVoice:ApplyPersonalityTraits(text, originalText)
         string.find(result, "%*.*%*") then -- Check for physical expressions too
         return result
     end
-
+    -- Special Khajiit-to-Khajiit expressions
+    if npcRace == "khajiit" then
+        result = self:ApplyKhajiitToKhajiitExpressions(result, originalText)
+    end
+    if traits.kindSoulTone > 30 then
+        result = self:ApplyKindSoulTone(result, originalText, traits.kindSoulTone)
+        -- Kind souls are less likely to be intimidating or melancholy
+        traits.intimidatingPresence = math.max(0, traits.intimidatingPresence - 20)
+        traits.melancholyTone = math.max(0, traits.melancholyTone - 15)
+    end
     -- Apply scholarly tone FIRST (affects farewells and greetings)
     if traits.scholarlyTone > 30 then
         result = self:ApplyScholarlyTone(result, originalText, traits.scholarlyTone)
     else
-        if self.savedVars.replaceGoodbyes then
+        if traits.replaceGoodbyes then
             result = self:ReplaceFarewells(result, originalText)
-        else
         end
         result = self:ReplaceGreetings(result, originalText)
     end
@@ -667,10 +946,24 @@ function KhajiitVoice:ApplyPersonalityTraits(text, originalText)
     if traits.physicalExpression > 20 then
         result = self:ApplyPhysicalExpressions(result, traits.physicalExpression, originalText)
     end
+    if traits.naiveTone > 30 then
+        result = self:ApplyNaiveTone(result, originalText, traits.naiveTone)
+    end
+
+    if traits.melancholyTone > 30 then
+        result = self:ApplyMelancholyTone(result, originalText, traits.melancholyTone)
+    end
+
+    if traits.daftTone > 30 then
+        result = self:ApplyDaftTone(result, originalText, traits.daftTone)
+    end
+
+    if traits.lonerTone > 30 then
+        result = self:ApplyLonerTone(result, originalText, traits.lonerTone)
+    end
 
     -- Existing personality traits with stable randomization
     if traits.formality > 70 then
-        result = string.gsub(result, "yes", "indeed")
         result = string.gsub(result, "Yeah", "Certainly")
     elseif traits.formality < 30 then
         result = string.gsub(result, "greetings", "hey there")
@@ -708,31 +1001,281 @@ function KhajiitVoice:ApplyPersonalityTraits(text, originalText)
     return result
 end
 
--- Apply intimidating presence (mainly affects farewells)
-function KhajiitVoice:ApplyIntimidatingPresence(text, originalText, intensity)
+function KhajiitVoice:ApplyKindSoulTone(text, originalText, intensity)
     local result = text
-    local intimidatingFarewells = patterns.khajiitExpressions.intimidatingFarewells
+    local kindExpressions = patterns.khajiitExpressions.kindSoulExpressions
+    local traits = KhajiitVoice.savedVars.personalityTraits
+    -- Replace greetings with kind versions
+    local isGreeting = string.find(originalText:lower(), "hello") or
+        string.find(originalText:lower(), "hi") or
+        string.find(originalText:lower(), "hey") or
+        string.find(originalText:lower(), "greetings") or
+        string.find(originalText:lower(), "good day")
 
-    -- Check if this is a farewell and replace with intimidating version
+    if isGreeting and getStableRandom(originalText, 1, 100, "kindgreet") <= intensity then
+        local index = getStableRandom(originalText, 1, #kindExpressions.greetings, "kindgreetindex")
+        local kindGreeting = kindExpressions.greetings[index]
+        result = string.gsub(result, "^Hello%.?%s*", kindGreeting .. " ")
+        result = string.gsub(result, "^Hi%.?%s*", kindGreeting .. " ")
+        result = string.gsub(result, "^Hey%.?%s*", kindGreeting .. " ")
+        result = string.gsub(result, "^Greetings%.?%s*", kindGreeting .. " ")
+        result = string.gsub(result, "^Good day%.?%s*", kindGreeting .. " ")
+    end
+
+    -- Replace farewells with kind versions
     local isFarewell = string.find(originalText:lower(), "goodbye") or
         string.find(originalText:lower(), "farewell") or
         string.find(originalText:lower(), "see you") or
         string.find(originalText:lower(), "take care") or
         string.find(originalText:lower(), "bye")
 
-    if isFarewell and getStableRandom(originalText, 1, 100, "intimidating") <= intensity then
-        -- Replace with intimidating farewell
-        local index = getStableRandom(originalText, 1, #intimidatingFarewells, "intimidatingfarewell")
-        local intimidatingFarewell = intimidatingFarewells[index]
-
-        -- Pattern replacements for intimidating farewells
-        result = string.gsub(result, "^Farewell%.?%s*", intimidatingFarewell .. " ")
-        result = string.gsub(result, "^Goodbye%.?%s*", intimidatingFarewell .. " ")
-        result = string.gsub(result, "^See you%.?%s*", intimidatingFarewell .. " ")
-        result = string.gsub(result, "^Take care%.?%s*", intimidatingFarewell .. " ")
-        result = string.gsub(result, "^Bye%.?%s*", intimidatingFarewell .. " ")
+    if traits.replaceGoodbyes then
+        if isFarewell and getStableRandom(originalText, 1, 100, "kindfare") <= intensity then
+            local index = getStableRandom(originalText, 1, #kindExpressions.farewells, "kindfareindex")
+            local kindFarewell = kindExpressions.farewells[index]
+            result = string.gsub(result, "^Farewell%.?%s*", kindFarewell .. " ")
+            result = string.gsub(result, "^Goodbye%.?%s*", kindFarewell .. " ")
+            result = string.gsub(result, "^See you%.?%s*", kindFarewell .. " ")
+            result = string.gsub(result, "^Take care%.?%s*", kindFarewell .. " ")
+            result = string.gsub(result, "^Bye%.?%s*", kindFarewell .. " ")
+        end
+    end
+    -- Apply flowery word replacements
+    for pattern, replacement in pairs(kindExpressions.replacements) do
+        if getStableRandom(originalText, 1, 100, "kind" .. pattern) <= (intensity / 2) then
+            result = string.gsub(result, pattern, replacement)
+        end
     end
 
+    -- Apply flowery intensifiers
+    for pattern, replacement in pairs(kindExpressions.flowerySpeech.intensifiers) do
+        if getStableRandom(originalText, 1, 100, "kindintense" .. pattern) <= (intensity / 3) then
+            result = string.gsub(result, "%f[%w]" .. pattern .. "%f[%W]", replacement)
+        end
+    end
+
+    -- Add endearments to sentences (occasionally)
+    if getStableRandom(originalText, 1, 100, "kindendear") <= (intensity / 4) then
+        -- Skip endearments for store/vendor interactions
+        if not string.find(result, "Store (", 1, true) then -- true = plain text search, case sensitive
+            -- Check if endearments already exist
+            local hasEndearment = false
+            local endearments = kindExpressions.endearments
+
+            for _, endearment in ipairs(endearments) do
+                if string.find(result, endearment, 1, true) then
+                    hasEndearment = true
+                    break
+                end
+            end
+
+            -- Only add if no endearment already exists
+            if not hasEndearment then
+                local index = getStableRandom(originalText, 1, #endearments, "kindendearindex")
+                local endearment = endearments[index]
+
+                -- Add endearment before punctuation or at end
+                if string.find(result, "[%.%!%?]$") then
+                    result = string.gsub(result, "([%.%!%?])$", endearment .. "%1")
+                else
+                    result = result .. endearment
+                end
+            end
+        end
+    end
+    return result
+end
+
+function KhajiitVoice:ApplyKhajiitToKhajiitExpressions(text, originalText)
+    local result = text
+    local traits = KhajiitVoice.savedVars.personalityTraits
+
+    -- Replace greetings with kinship versions
+    local isGreeting = string.find(originalText:lower(), "hello") or
+        string.find(originalText:lower(), "hi") or
+        string.find(originalText:lower(), "hey") or
+        string.find(originalText:lower(), "greetings") or
+        string.find(originalText:lower(), "good day")
+
+    if isGreeting and getStableRandom(originalText, 1, 100, "khajiitgreet") <= 70 then
+        local index = getStableRandom(originalText, 1, #khajiitToKhajiitExpressions.greetings, "khajiitgreetindex")
+        local khajiitGreeting = khajiitToKhajiitExpressions.greetings[index]
+        result = string.gsub(result, "^Hello%.?%s*", khajiitGreeting .. " ")
+        result = string.gsub(result, "^Hi%.?%s*", khajiitGreeting .. " ")
+        result = string.gsub(result, "^Hey%.?%s*", khajiitGreeting .. " ")
+        result = string.gsub(result, "^Greetings%.?%s*", khajiitGreeting .. " ")
+        result = string.gsub(result, "^Good day%.?%s*", khajiitGreeting .. " ")
+    end
+
+    -- Replace farewells with kinship versions
+    local isFarewell = string.find(originalText:lower(), "goodbye") or
+        string.find(originalText:lower(), "farewell") or
+        string.find(originalText:lower(), "see you") or
+        string.find(originalText:lower(), "take care") or
+        string.find(originalText:lower(), "bye")
+    if traits.replaceGoodbyes then
+        if isFarewell and getStableRandom(originalText, 1, 100, "khajiitfare") <= 70 then
+            local index = getStableRandom(originalText, 1, #khajiitToKhajiitExpressions.farewells, "khajiitfareindex")
+            local khajiitFarewell = khajiitToKhajiitExpressions.farewells[index]
+            result = string.gsub(result, "^Farewell%.?%s*", khajiitFarewell .. "")
+            result = string.gsub(result, "^Goodbye%.?%s*", khajiitFarewell)
+            result = string.gsub(result, "^See you%.?%s*", khajiitFarewell .. "")
+            result = string.gsub(result, "^Take care%.?%s*", khajiitFarewell .. "")
+            result = string.gsub(result, "^Bye%.?%s*", khajiitFarewell .. "")
+        end
+    end
+    return result
+end
+
+function KhajiitVoice:ApplyNaiveTone(text, originalText, intensity)
+    local result = text
+    local naiveExpressions = patterns.khajiitExpressions.naiveExpressions
+
+    -- Apply naive word replacements
+    for pattern, replacement in pairs(naiveExpressions.replacements) do
+        if getStableRandom(originalText, 1, 100, "naive" .. pattern) <= (intensity / 2) then
+            result = string.gsub(result, pattern, replacement)
+        end
+    end
+
+    -- Add uncertain beginnings
+    if getStableRandom(originalText, 1, 100, "naivebegin") <= (intensity / 3) then
+        local beginnings = naiveExpressions.additions.beginnings
+        local index = getStableRandom(originalText, 1, #beginnings, "naivebeginindex")
+        local beginning = beginnings[index]
+        result = beginning .. result
+    end
+
+    -- Add uncertain endings
+    if getStableRandom(originalText, 1, 100, "naiveend") <= (intensity / 2) then
+        local endings = naiveExpressions.additions.endings
+        local index = getStableRandom(originalText, 1, #endings, "naiveendindex")
+        local ending = endings[index]
+        result = result .. ending
+    end
+
+    return result
+end
+
+-- NEW: Apply melancholy tone
+function KhajiitVoice:ApplyMelancholyTone(text, originalText, intensity)
+    local result = text
+    local melancholyExpressions = patterns.khajiitExpressions.melancholyExpressions
+    local traits = KhajiitVoice.savedVars.personalityTraits
+    -- Replace farewells with melancholy versions
+    local isFarewell = string.find(originalText:lower(), "goodbye") or
+        string.find(originalText:lower(), "farewell") or
+        string.find(originalText:lower(), "see you") or
+        string.find(originalText:lower(), "take care") or
+        string.find(originalText:lower(), "bye")
+    if traits.replaceGoodbyes then
+        if isFarewell and getStableRandom(originalText, 1, 100, "melancholyfare") <= intensity then
+            local index = getStableRandom(originalText, 1, #melancholyExpressions.farewells, "melancholyfareindex")
+            local melancholyFarewell = melancholyExpressions.farewells[index]
+            result = string.gsub(result, "^Farewell%.?%s*", melancholyFarewell .. " ")
+            result = string.gsub(result, "^Goodbye%.?%s*", melancholyFarewell .. " ")
+            result = string.gsub(result, "^See you%.?%s*", melancholyFarewell .. " ")
+            result = string.gsub(result, "^Take care%.?%s*", melancholyFarewell .. " ")
+            result = string.gsub(result, "^Bye%.?%s*", melancholyFarewell .. " ")
+        end
+    end
+    -- Apply melancholy word replacements
+    for pattern, replacement in pairs(melancholyExpressions.replacements) do
+        if getStableRandom(originalText, 1, 100, "melancholy" .. pattern) <= (intensity / 2) then
+            result = string.gsub(result, pattern, replacement)
+        end
+    end
+    return result
+end
+
+-- NEW: Apply daft tone
+function KhajiitVoice:ApplyDaftTone(text, originalText, intensity)
+    local result = text
+    local daftExpressions = patterns.khajiitExpressions.daftExpressions
+
+    -- Apply daft word replacements
+    for pattern, replacement in pairs(daftExpressions.replacements) do
+        if getStableRandom(originalText, 1, 100, "daft" .. pattern) <= (intensity / 2) then
+            result = string.gsub(result, pattern, replacement)
+        end
+    end
+
+    -- Add confusion expressions
+    if getStableRandom(originalText, 1, 100, "daftconfusion") <= (intensity / 4) then
+        local confusions = daftExpressions.confusions
+        local index = getStableRandom(originalText, 1, #confusions, "daftconfusionindex")
+        local confusion = confusions[index]
+        result = confusion .. " " .. result
+    end
+
+    return result
+end
+
+-- NEW: Apply loner tone
+function KhajiitVoice:ApplyLonerTone(text, originalText, intensity)
+    local result = text
+    local lonerExpressions = patterns.khajiitExpressions.lonerExpressions
+    local traits = KhajiitVoice.savedVars.personalityTraits
+    -- Replace farewells with loner versions
+    local isFarewell = string.find(originalText:lower(), "goodbye") or
+        string.find(originalText:lower(), "farewell") or
+        string.find(originalText:lower(), "see you") or
+        string.find(originalText:lower(), "take care") or
+        string.find(originalText:lower(), "bye")
+    if traits.replaceGoodbyes then
+        if isFarewell and getStableRandom(originalText, 1, 100, "lonerfare") <= intensity then
+            local index = getStableRandom(originalText, 1, #lonerExpressions.farewells, "lonerfareindex")
+            local lonerFarewell = lonerExpressions.farewells[index]
+            result = string.gsub(result, "^Farewell%.?%s*", lonerFarewell .. " ")
+            result = string.gsub(result, "^Goodbye%.?%s*", lonerFarewell .. " ")
+            result = string.gsub(result, "^See you%.?%s*", lonerFarewell .. " ")
+            result = string.gsub(result, "^Take care%.?%s*", lonerFarewell .. " ")
+            result = string.gsub(result, "^Bye%.?%s*", lonerFarewell .. " ")
+        end
+    end
+    -- Apply loner word replacements
+    for pattern, replacement in pairs(lonerExpressions.replacements) do
+        if getStableRandom(originalText, 1, 100, "loner" .. pattern) <= (intensity / 2) then
+            result = string.gsub(result, pattern, replacement)
+        end
+    end
+
+    -- Add avoidance beginnings
+    if getStableRandom(originalText, 1, 100, "loneravoidance") <= (intensity / 3) then
+        local beginnings = lonerExpressions.avoidance.beginnings
+        local index = getStableRandom(originalText, 1, #beginnings, "loneravoidanceindex")
+        local beginning = beginnings[index]
+        result = beginning .. result
+    end
+
+    return result
+end
+
+-- Apply intimidating presence (mainly affects farewells)
+function KhajiitVoice:ApplyIntimidatingPresence(text, originalText, intensity)
+    local result = text
+    local intimidatingFarewells = patterns.khajiitExpressions.intimidatingFarewells
+    local traits = KhajiitVoice.savedVars.personalityTraits
+    -- Check if this is a farewell and replace with intimidating version
+    local isFarewell = string.find(originalText:lower(), "goodbye") or
+        string.find(originalText:lower(), "farewell") or
+        string.find(originalText:lower(), "see you") or
+        string.find(originalText:lower(), "take care") or
+        string.find(originalText:lower(), "bye")
+    if traits.replaceGoodbyes then
+        if isFarewell and getStableRandom(originalText, 1, 100, "intimidating") <= intensity then
+            -- Replace with intimidating farewell
+            local index = getStableRandom(originalText, 1, #intimidatingFarewells, "intimidatingfarewell")
+            local intimidatingFarewell = intimidatingFarewells[index]
+
+            -- Pattern replacements for intimidating farewells
+            result = string.gsub(result, "^Farewell%.?%s*", intimidatingFarewell .. " ")
+            result = string.gsub(result, "^Goodbye%.?%s*", intimidatingFarewell .. " ")
+            result = string.gsub(result, "^See you%.?%s*", intimidatingFarewell .. " ")
+            result = string.gsub(result, "^Take care%.?%s*", intimidatingFarewell .. " ")
+            result = string.gsub(result, "^Bye%.?%s*", intimidatingFarewell .. " ")
+        end
+    end
     return result
 end
 
@@ -740,6 +1283,7 @@ end
 function KhajiitVoice:ApplyScholarlyTone(text, originalText, intensity)
     local result = text
     local scholarlyExpressions = patterns.khajiitExpressions.scholarlyExpressions
+    local traits = KhajiitVoice.savedVars.personalityTraits
 
     -- Replace greetings with scholarly versions
     local isGreeting = string.find(originalText:lower(), "hello") or
@@ -759,20 +1303,22 @@ function KhajiitVoice:ApplyScholarlyTone(text, originalText, intensity)
     end
 
     -- Replace farewells with scholarly versions
-    local isFarewell = string.find(originalText:lower(), "goodbye") or
-        string.find(originalText:lower(), "farewell") or
-        string.find(originalText:lower(), "see you") or
-        string.find(originalText:lower(), "take care") or
-        string.find(originalText:lower(), "bye")
+    if traits.replaceGoodbyes then
+        local isFarewell = string.find(originalText:lower(), "goodbye") or
+            string.find(originalText:lower(), "farewell") or
+            string.find(originalText:lower(), "see you") or
+            string.find(originalText:lower(), "take care") or
+            string.find(originalText:lower(), "bye")
 
-    if isFarewell and getStableRandom(originalText, 1, 100, "scholarlyfare") <= intensity then
-        local index = getStableRandom(originalText, 1, #scholarlyExpressions.farewells, "scholarlyfareindex")
-        local scholarlyFarewell = scholarlyExpressions.farewells[index]
-        result = string.gsub(result, "^Farewell%.?%s*", scholarlyFarewell .. " ")
-        result = string.gsub(result, "^Goodbye%.?%s*", scholarlyFarewell .. " ")
-        result = string.gsub(result, "^See you%.?%s*", scholarlyFarewell .. " ")
-        result = string.gsub(result, "^Take care%.?%s*", scholarlyFarewell .. " ")
-        result = string.gsub(result, "^Bye%.?%s*", scholarlyFarewell .. " ")
+        if isFarewell and getStableRandom(originalText, 1, 100, "scholarlyfare") <= intensity then
+            local index = getStableRandom(originalText, 1, #scholarlyExpressions.farewells, "scholarlyfareindex")
+            local scholarlyFarewell = scholarlyExpressions.farewells[index]
+            result = string.gsub(result, "^Farewell%.?%s*", scholarlyFarewell .. " ")
+            result = string.gsub(result, "^Goodbye%.?%s*", scholarlyFarewell .. " ")
+            result = string.gsub(result, "^See you%.?%s*", scholarlyFarewell .. " ")
+            result = string.gsub(result, "^Take care%.?%s*", scholarlyFarewell .. " ")
+            result = string.gsub(result, "^Bye%.?%s*", scholarlyFarewell .. " ")
+        end
     end
 
     -- Apply scholarly word replacements
@@ -787,27 +1333,76 @@ end
 
 function KhajiitVoice:ApplyPhysicalExpressions(text, intensity, originalText)
     local result = text
-    local physicalActions = patterns.khajiitExpressions.physicalActions
+    local traits = KhajiitVoice.savedVars.personalityTraits
 
-    -- Apply specific replacements
+    -- Check if physical expressions already applied (prevent stacking)
+    if string.find(result, "%*.*%*") then
+        return result
+    end
+
+    -- Apply specific word/phrase replacements for physical actions
+    local physicalActions = patterns.khajiitExpressions.physicalActions
     for pattern, replacement in pairs(physicalActions.replacements) do
         result = string.gsub(result, pattern, replacement)
     end
 
-    -- Random chance to add physical actions based on intensity
-    if getStableRandom(originalText, 1, 100, "physical") <= intensity then
-        if getStableRandom(originalText, 1, 100, "physicaltype") <= 40 then
-            -- Add beginning action
-            local beginningActions = physicalActions.beginnings
-            local index = getStableRandom(originalText, 1, #beginningActions, "physicalbegin")
-            local action = beginningActions[index]
-            result = action .. result
-        else
-            -- Add ending action
-            local endingActions = physicalActions.endings
-            local index = getStableRandom(originalText, 1, #endingActions, "physicalend")
-            local action = endingActions[index]
-            result = result .. action
+    -- Determine which type of physical actions to use based on active personality traits
+    local actionPool = {}
+    local actionType = "normal"
+
+    -- Build action pool based on active personality traits
+    if traits.kindSoulTone > 30 then
+        -- Add gentle actions from kind soul
+        local gentleActions = patterns.khajiitExpressions.kindSoulExpressions.gentleActions
+        for _, action in ipairs(gentleActions.beginnings) do
+            table.insert(actionPool, { type = "beginning", action = action })
+        end
+        for _, action in ipairs(gentleActions.endings) do
+            table.insert(actionPool, { type = "ending", action = action })
+        end
+        actionType = "gentle"
+    end
+
+    if traits.melancholyTone > 30 then
+        -- Add melancholy sighs and sad actions
+        local melancholyActions = patterns.khajiitExpressions.melancholyExpressions.additions.sighs
+        for _, action in ipairs(melancholyActions) do
+            table.insert(actionPool, { type = "ending", action = action })
+        end
+        actionType = "melancholy"
+    end
+
+    if traits.intimidatingPresence > 50 then
+        -- Add intimidating physical actions
+        local intimidatingActions = {
+            "*narrows eyes menacingly* ",
+            "*claws extend slightly* ",
+            "*tail lashes with irritation* ",
+            "*ears flatten against head* ",
+            "*whiskers twitch with annoyance* "
+        }
+        for _, action in ipairs(intimidatingActions) do
+            table.insert(actionPool, { type = "beginning", action = action })
+        end
+
+        local intimidatingEndings = {
+            " *shows fangs in warning*",
+            " *tail bristles*",
+            " *claws tap impatiently*"
+        }
+        for _, action in ipairs(intimidatingEndings) do
+            table.insert(actionPool, { type = "ending", action = action })
+        end
+        actionType = "intimidating"
+    end
+
+    -- If no special personality actions, use default physical actions
+    if #actionPool == 0 then
+        for _, action in ipairs(physicalActions.beginnings) do
+            table.insert(actionPool, { type = "beginning", action = action })
+        end
+        for _, action in ipairs(physicalActions.endings) do
+            table.insert(actionPool, { type = "ending", action = action })
         end
     end
 
@@ -1148,6 +1743,12 @@ function KhajiitVoice:ProcessDialogue(originalText)
     if self.currentDialogueReplacements[originalText] then
         return self.currentDialogueReplacements[originalText]
     end
+    -- Get NPC race relationship
+    local npcRace, kinshipMultiplier = self:GetNPCRaceRelationship()
+
+    -- Get base traits and apply racial kinship modifiers
+    local baseTraits = KhajiitVoice.savedVars.personalityTraits
+    local modifiedTraits = self:ApplyRacialKinship(baseTraits, npcRace, kinshipMultiplier)
 
     -- Check if we should use Cyrodiilic tone (Imperial speech) instead of Khajiit speech
     local cyrodiilicTone = KhajiitVoice.savedVars.personalityTraits.cyrodiilicTone or 0
@@ -1172,7 +1773,7 @@ function KhajiitVoice:ProcessDialogue(originalText)
 
     -- Apply personality-based modifications with original text for consistency
     processedText = self:ApplyPersonalityTraits(processedText, originalText)
-
+    processedText = self:EnsurePunctuation(processedText)
     -- Store the complete transformation for this dialogue session
     self.currentDialogueReplacements[originalText] = processedText
 
@@ -1251,10 +1852,6 @@ function KhajiitVoice:HandleQuestions(text, originalText)
                     processedSentence = self:ReduceRepetition(processedSentence, originalText)
                 end
             end
-            if getStableRandom(originalText, 1, 100, "yesquestion") <= 30 then -- 30% chance
-                -- Remove the existing ? and add ", yes?"
-                processedSentence = string.gsub(processedSentence, "%?%s*$", ", yes?")
-            end
         end
 
         table.insert(processedSentences, processedSentence)
@@ -1289,31 +1886,6 @@ function KhajiitVoice:ProcessAndReplaceText(textElement)
 
         textElement:SetText(processedText)
     end
-end
-
--- Fade in text element smoothly
-function KhajiitVoice:FadeInText(textElement)
-    if not textElement then return end
-
-    -- Start completely invisible
-    textElement:SetAlpha(0)
-
-    -- Create and start fade animation immediately
-
-    local fadeAnimation = ANIMATION_MANAGER:CreateTimelineFromVirtual("FadeSceneAnimation")
-
-    -- Ensure the element is still valid
-    fadeAnimation:GetAnimation(1):SetAnimatedControl(textElement)
-    fadeAnimation:GetAnimation(1):SetAlphaValues(0, 1)
-    fadeAnimation:GetAnimation(1):SetDuration(900) -- Quick 300ms fade
-
-    -- Clear flag when animation completes
-    fadeAnimation:SetHandler("OnStop", function()
-        textElement._khajiitAnimating = false
-    end)
-
-    -- Start the fade immediately
-    fadeAnimation:PlayFromStart()
 end
 
 -- Called when dialogue ends to clean up
@@ -1380,7 +1952,6 @@ function KhajiitVoice:CreateSettingsMenu()
                             end
                         end
                         KhajiitVoice.savedVars.selectedClassPreset = "Dragonknight"
-                        d("Applied Dragonknight preset!")
                     end,
                     width = "half"
                 },
@@ -1396,7 +1967,6 @@ function KhajiitVoice:CreateSettingsMenu()
                             end
                         end
                         KhajiitVoice.savedVars.selectedClassPreset = "Sorcerer"
-                        d("Applied Sorcerer preset!")
                     end,
                     width = "half"
                 },
@@ -1412,7 +1982,6 @@ function KhajiitVoice:CreateSettingsMenu()
                             end
                         end
                         KhajiitVoice.savedVars.selectedClassPreset = "Nightblade"
-                        d("Applied Nightblade preset!")
                     end,
                     width = "half"
                 },
@@ -1428,7 +1997,6 @@ function KhajiitVoice:CreateSettingsMenu()
                             end
                         end
                         KhajiitVoice.savedVars.selectedClassPreset = "Templar"
-                        d("Applied Templar preset!")
                     end,
                     width = "half"
                 },
@@ -1444,7 +2012,6 @@ function KhajiitVoice:CreateSettingsMenu()
                             end
                         end
                         KhajiitVoice.savedVars.selectedClassPreset = "Warden"
-                        d("Applied Warden preset!")
                     end,
                     width = "half"
                 },
@@ -1460,7 +2027,6 @@ function KhajiitVoice:CreateSettingsMenu()
                             end
                         end
                         KhajiitVoice.savedVars.selectedClassPreset = "Necromancer"
-                        d("Applied Necromancer preset!")
                     end,
                     width = "half"
                 },
@@ -1476,7 +2042,6 @@ function KhajiitVoice:CreateSettingsMenu()
                             end
                         end
                         KhajiitVoice.savedVars.selectedClassPreset = "Arcanist"
-                        d("Applied Arcanist preset!")
                     end,
                     width = "half"
                 }
@@ -1541,6 +2106,16 @@ function KhajiitVoice:CreateSettingsMenu()
         },
         {
             type = "slider",
+            name = "Kind Soul",
+            tooltip = "Gentle and caring - adds flowery language, endearments, and compassionate responses",
+            min = 0,
+            max = 100,
+            step = 5,
+            getFunc = function() return KhajiitVoice.savedVars.personalityTraits.kindSoulTone end,
+            setFunc = function(value) KhajiitVoice.savedVars.personalityTraits.kindSoulTone = value end,
+        },
+        {
+            type = "slider",
             name = "Peddler",
             tooltip = "How often to include merchant-like phrases",
             min = 0,
@@ -1549,8 +2124,6 @@ function KhajiitVoice:CreateSettingsMenu()
             getFunc = function() return KhajiitVoice.savedVars.personalityTraits.merchantTendency end,
             setFunc = function(value) KhajiitVoice.savedVars.personalityTraits.merchantTendency = value end,
         },
-
-
         {
             type = "slider",
             name = "Intimidating",
@@ -1570,6 +2143,46 @@ function KhajiitVoice:CreateSettingsMenu()
             step = 5,
             getFunc = function() return KhajiitVoice.savedVars.personalityTraits.scholarlyTone end,
             setFunc = function(value) KhajiitVoice.savedVars.personalityTraits.scholarlyTone = value end,
+        },
+        {
+            type = "slider",
+            name = "Naive",
+            tooltip = "Innocent and uncertain - adds questioning, second-guessing, and simple-minded responses",
+            min = 0,
+            max = 100,
+            step = 5,
+            getFunc = function() return KhajiitVoice.savedVars.personalityTraits.naiveTone end,
+            setFunc = function(value) KhajiitVoice.savedVars.personalityTraits.naiveTone = value end,
+        },
+        {
+            type = "slider",
+            name = "Daft",
+            tooltip = "Confused and simple - struggles with complex words and concepts",
+            min = 0,
+            max = 100,
+            step = 5,
+            getFunc = function() return KhajiitVoice.savedVars.personalityTraits.daftTone end,
+            setFunc = function(value) KhajiitVoice.savedVars.personalityTraits.daftTone = value end,
+        },
+        {
+            type = "slider",
+            name = "Melancholy",
+            tooltip = "Sad and wistful - mutes positive emotions and adds sighing, distant expressions",
+            min = 0,
+            max = 100,
+            step = 5,
+            getFunc = function() return KhajiitVoice.savedVars.personalityTraits.melancholyTone end,
+            setFunc = function(value) KhajiitVoice.savedVars.personalityTraits.melancholyTone = value end,
+        },
+        {
+            type = "slider",
+            name = "Distant",
+            tooltip = "Antisocial and distant - avoids group references, reluctant in social interactions",
+            min = 0,
+            max = 100,
+            step = 5,
+            getFunc = function() return KhajiitVoice.savedVars.personalityTraits.lonerTone end,
+            setFunc = function(value) KhajiitVoice.savedVars.personalityTraits.lonerTone = value end,
         },
         {
             type = "divider",
